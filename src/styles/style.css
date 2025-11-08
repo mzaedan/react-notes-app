@@ -1,0 +1,248 @@
+/* Import Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-icon {
+  color: #2563eb;
+  font-size: 1.2rem;
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.navbar-settings {
+  background-color: #fde68a;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #a16207;
+  transition: transform 0.2s ease;
+}
+
+.navbar-settings:hover {
+  transform: rotate(30deg);
+}
+
+.searchbar-container {
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.search-input-wrapper {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem;
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  color: #9ca3af;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #111827;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin: 0 0 1rem 0;
+  padding: 0;
+  color: #111827;
+  font-weight: 700;
+}
+
+.note-section-container {
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.card-note-input {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1.10rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.note-input-title {
+  width: 95%;
+  border-radius: 10px;
+  padding: .85rem 1rem;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  outline: none;
+  transition: border-color .2s ease;
+}
+
+.note-input-title:focus {
+  border-color: #2563eb;
+}
+
+.note-input > p {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0.2rem 1.5rem 1rem 1rem;
+
+}
+
+.note-input-content {
+  width: 95%;
+  height: 120px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .2s ease;
+  resize: none;
+}
+
+.note-input-content:focus {
+  border-color: #2563eb;
+}
+
+.note-input > h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.save-note-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: .75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background .2s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.save-note-btn:hover {
+  background: #1d4ed8;
+}
+
+.note-list {
+  max-width: 1100px;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.note-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow .2s ease;
+}
+
+.note-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+
+.note-item-body {
+  margin-bottom: 1rem;
+}
+
+.note-item-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: .35rem;
+  color: #111827;
+}
+
+.note-item-date {
+  display: block;
+  font-size: .85rem;
+  color: #6b7280;
+  margin-bottom: .45rem;
+}
+
+.note-item-body-content {
+  font-size: .95rem;
+  line-height: 1.4rem;
+  color: #4b5563;
+}
+
+/* tombol bawah */
+.note-item-action {
+  display: flex;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+
+.note-btn {
+  border: none;
+  padding: .45rem .9rem;
+  border-radius: 8px;
+  font-size: .85rem;
+  cursor: pointer;
+}
+
+.note-btn.edit {
+  background: #e5e7eb;
+}
+
+.note-btn.archive {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.note-btn.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}
