@@ -1,11 +1,11 @@
 import React from "react";
 import NoteItem from "./NoteItem";
 
-function NoteList({ notes = [], onDelete, onArchive, onEdit }) {
+function NoteList({ notes = [], onDelete, onArchive, isArchived = false }) {
   if (!notes.length) {
     return (
       <div className="note-list-empty">
-        <p>Tidak ada catatan yang diarsipkan !</p>
+        <p>{isArchived ? "Tidak ada catatan yang diarsipkan !" : "Tidak ada catatan tersedia !"}</p>
       </div>
     );
   } else {
@@ -17,7 +17,6 @@ function NoteList({ notes = [], onDelete, onArchive, onEdit }) {
             note={note}
             onDelete={onDelete}
             onArchive={onArchive}
-            onEdit={onEdit}
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaStarOfLife, FaCog } from "react-icons/fa";
+import { FaStarOfLife } from "react-icons/fa";
 
 function Navbar() {
   return (
@@ -9,9 +9,6 @@ function Navbar() {
           <FaStarOfLife className="navbar-icon" />
           <h1 className="navbar-title">My Notes</h1>
         </div>
-        <button className="navbar-settings">
-          <FaCog />
-        </button>
       </div>
     </nav>
   );

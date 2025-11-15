@@ -1,138 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
-import NoteInput from "./NoteInput";
 import NoteList from "./NoteList";
-import { getInitialData } from "../utils";
+import { useNotes } from "../context/NoteContext";
 
-class NoteApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      notes: getInitialData(),
-      searchQuery: "",
-      editingNote: null,
-    };
-    this.addNote = this.addNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
-    this.editNote = this.editNote.bind(this);
-    this.archiveNote = this.archiveNote.bind(this);
-    this.unarchiveNote = this.unarchiveNote.bind(this);
-    this.startEditing = this.startEditing.bind(this);
-    this.cancelEditing = this.cancelEditing.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-  }
+function NoteApp() {
+  const { notes, deleteNote, archiveNote } = useNotes();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || "");
 
-  addNote({ title, body }) {
-    const newNote = {
-      id: +new Date(),
-      title,
-      body,
-      createdAt: new Date().toISOString(),
-      archived: false,
-    };
+  useEffect(() => {
+    const search = searchParams.get('search') || "";
+    setSearchTerm(search);
+  }, [searchParams]);
 
-    this.setState((prevState) => ({
-      notes: [...prevState.notes, newNote],
-    }));
-  }
+  const activeNotes = notes.filter(note => !note.archived);
+  const archivedNotes = notes.filter(note => note.archived);
+  
+  const filteredActiveNotes = activeNotes.filter(note => 
+    note.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const filteredArchivedNotes = archivedNotes.filter(note => 
+    note.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  deleteNote(id) {
-    this.setState((prevState) => ({
-      notes: prevState.notes.filter(note => note.id !== id),
-      editingNote: prevState.editingNote && prevState.editingNote.id === id ? null : prevState.editingNote,
-    }));
-  }
+  const handleSearchChange = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+    
+    if (newSearchTerm) {
+      setSearchParams({ search: newSearchTerm });
+    } else {
+      setSearchParams({});
+    }
+  };
 
-  editNote({ id, title, body }) {
-    this.setState((prevState) => ({
-      notes: prevState.notes.map(note => 
-        note.id === id ? { ...note, title, body } : note
-      ),
-      editingNote: null,
-    }));
-  }
-
-  archiveNote(id) {
-    this.setState((prevState) => ({
-      notes: prevState.notes.map(note => 
-        note.id === id ? { ...note, archived: true } : note
-      ),
-    }));
-  }
-
-  unarchiveNote(id) {
-    this.setState((prevState) => ({
-      notes: prevState.notes.map(note => 
-        note.id === id ? { ...note, archived: false } : note
-      ),
-    }));
-  }
-
-  startEditing(note) {
-    this.setState({
-      editingNote: note,
-    });
-  }
-
-  cancelEditing() {
-    this.setState({
-      editingNote: null,
-    });
-  }
-
-  handleSearch(query) {
-    this.setState({
-      searchQuery: query,
-    });
-  }
-
-  render() {
-    // Filter notes based on search query
-    const filteredNotes = this.state.notes.filter(note => 
-      note.title.toLowerCase().includes(this.state.searchQuery.toLowerCase()) ||
-      note.body.toLowerCase().includes(this.state.searchQuery.toLowerCase())
-    );
-
-    // Separate active and archived notes
-    const activeNotes = filteredNotes.filter(note => !note.archived);
-    const archivedNotes = filteredNotes.filter(note => note.archived);
-
-    return (
-      <div>
-        <Navbar />
-        <NoteInput 
-          onAddNote={this.addNote} 
-          onEditNote ={this.editNote}
-          editingNote={this.state.editingNote}
-          onCancelEdit={this.cancelEditing}
+  return (
+    <div>
+      <Navbar />
+      <Searchbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <div className="note-section-container">
+        <h2 className="title">Active Notes</h2>
+        <NoteList 
+          notes={filteredActiveNotes} 
+          onDelete={deleteNote}
+          onArchive={archiveNote}
         />
-        <Searchbar onSearch={this.handleSearch} searchQuery={this.state.searchQuery} />
         
-        <div className="note-section-container">
-          <h2>Catatan Aktif</h2>
-          <NoteList 
-            notes={activeNotes} 
-            onDelete={this.deleteNote} 
-            onEdit={this.startEditing}
-            onArchive={this.archiveNote}
-          />
-        </div>
-        
-        {archivedNotes.length > 0 && (
-          <div className="note-section-container">
-            <h2>Catatan Arsip</h2>
+        {filteredArchivedNotes.length > 0 && (
+          <div className="archived-notes-section">
+            <h2 className="title">Archived Notes</h2>
             <NoteList 
-              notes={archivedNotes} 
-              onDelete={this.deleteNote} 
-              onEdit={this.startEditing}
-              onArchive={this.unarchiveNote}
+              notes={filteredArchivedNotes} 
+              onDelete={deleteNote}
+              onArchive={archiveNote}
+              isArchived={true}
             />
           </div>
         )}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default NoteApp;

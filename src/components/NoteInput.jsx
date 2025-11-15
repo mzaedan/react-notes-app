@@ -3,11 +3,21 @@ import React from "react";
 class NoteInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: "",
-      body: "",
-      charCount: 50,
-    };
+    
+    // Initialize state based on whether we're editing or not
+    if (props.editingNote) {
+      this.state = {
+        title: props.editingNote.title,
+        body: props.editingNote.body,
+        charCount: 50 - props.editingNote.title.length,
+      };
+    } else {
+      this.state = {
+        title: "",
+        body: "",
+        charCount: 50,
+      };
+    }
     
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -16,7 +26,10 @@ class NoteInput extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.editingNote && this.props.editingNote !== prevProps.editingNote) {
+    // Check if we've switched to editing mode or switched between different notes
+    if (this.props.editingNote && 
+        (!prevProps.editingNote || 
+         this.props.editingNote.id !== prevProps.editingNote.id)) {
       this.setState({
         title: this.props.editingNote.title,
         body: this.props.editingNote.body,
@@ -24,6 +37,7 @@ class NoteInput extends React.Component {
       });
     }
     
+    // Reset form when switching from edit to add mode
     if (!this.props.editingNote && prevProps.editingNote) {
       this.setState({
         title: "",
@@ -79,7 +93,9 @@ class NoteInput extends React.Component {
 
   handleCancel(event) {
     event.preventDefault();
-    this.props.onCancelEdit();
+    if (this.props.onCancelEdit) {
+      this.props.onCancelEdit();
+    }
   }
 
   render() {
@@ -109,7 +125,7 @@ class NoteInput extends React.Component {
             ></textarea>
 
             <div className="note-input-buttons">
-              {isEditing && (
+              {(isEditing || this.props.onCancelEdit) && (
                 <button 
                   type="button" 
                   className="cancel-edit-btn"

@@ -1,13 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import NoteItemBody from "./NoteItemBody";
 
-function NoteItem({ note, onDelete, onArchive, onEdit }) {
+function NoteItem({ note, onDelete, onArchive }) {
+  const navigate = useNavigate();
+
   const handleDelete = () => {
     onDelete(note.id);
   };
 
   const handleEdit = () => {
-    onEdit(note);
+    navigate(`/edit/${note.id}`);
   };
 
   const handleArchive = () => {

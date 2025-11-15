@@ -1,5 +1,6 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 
 class Searchbar extends React.Component {
   constructor(props) {
@@ -8,7 +9,16 @@ class Searchbar extends React.Component {
   }
 
   handleChange(event) {
-    this.props.onSearch(event.target.value);
+    const searchTerm = event.target.value;
+    this.props.onSearchChange(searchTerm);
+    
+    const url = new URL(window.location);
+    if (searchTerm) {
+      url.searchParams.set('search', searchTerm);
+    } else {
+      url.searchParams.delete('search');
+    }
+    window.history.replaceState({}, '', url);
   }
 
   render() {
@@ -21,9 +31,14 @@ class Searchbar extends React.Component {
             type="text"
             placeholder="Cari catatan..."
             className="search-input"
-            value={this.props.searchQuery || ""}
+            value={this.props.searchTerm || ""}
             onChange={this.handleChange}
           />
+        </div>
+        <div className="add-button">
+          <Link to="/add">
+            <button className="add-note-button">Tambah Catatan</button>
+          </Link>
         </div>
       </div>
     );

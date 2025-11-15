@@ -54,6 +54,26 @@
   transform: rotate(30deg);
 }
 
+.navbar-add-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.navbar-add-button:hover {
+  background-color: #1d4ed8;
+}
+
 .searchbar-container {
   max-width: 1100px;
   margin: 1.5rem auto;
@@ -151,21 +171,6 @@
   margin-bottom: 0.75rem;
 }
 
-.save-note-btn {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  padding: .75rem 1.5rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: background .2s ease;
-  display: block;
-  margin-left: auto;
-  margin-right: 0;
-}
 
 .save-note-btn:hover {
   background: #1d4ed8;
@@ -203,6 +208,15 @@
   font-weight: 600;
   margin-bottom: .35rem;
   color: #111827;
+}
+
+.note-title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.note-title-link:hover {
+  color: #2563eb;
 }
 
 .note-item-date {
@@ -246,3 +260,141 @@
   background: #fee2e2;
   color: #dc2626;
 }
+
+.add-button{
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: right;
+}
+.add-note-button {
+ background-color: #1d4ed8;
+ font-size: medium;
+ width: 150px;
+ height: 2rem;
+ color: #e5e5e5;
+ border-radius: 5px;
+ border: none;
+ padding: auto;
+}
+
+.add-note-button:hover{
+  opacity:.9;
+  cursor:pointer;
+}
+
+.detail-container{
+  max-width: 1100px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.detail-title{
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+.detail-date{
+  font-size: .9rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.detail-body{
+  font-size: 1.05rem;
+  line-height: 1.6rem;
+  color: #4b5563;
+  white-space: pre-line;
+}
+
+/* Not Found Page */
+.not-found-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: 2.5rem;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.not-found-message {
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.not-found-link {
+  background-color: #2563eb;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.not-found-link:hover {
+  background-color: #1d4ed8;
+}
+
+/* Detail Page Back Button */
+.back-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #1d4ed8;
+}
+
+.note-input-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.save-note-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background .2s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.cancel-edit-btn {
+  background-color: #fffd36;
+  color: #111827;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-edit-btn:hover {
+  background-color: #d1d5db;
+}
+
