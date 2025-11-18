@@ -1,15 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import NoteList from "../components/NoteList";
+import { useNotes } from "../context/NoteContext";
+import { useTranslation } from "../utils/translations";
+import { useLanguage } from "../context/LanguageContext";
 
 function ArchivePage() {
-  const navigate = useNavigate();
+  const { notes } = useNotes();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   
-  // Redirect to main page since we're showing archived notes there now
-  React.useEffect(() => {
-    navigate("/");
-  }, [navigate]);
+  // Filter archived notes
+  const archivedNotes = notes.filter(note => note.archived);
 
-  return null;
+  return (
+    <div className="page archive-page">
+      <NoteList 
+        notes={archivedNotes} 
+        title={t('archivedNotes')} 
+        isArchived={true}
+      />
+    </div>
+  );
 }
 
 export default ArchivePage;

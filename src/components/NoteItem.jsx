@@ -1,16 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import NoteItemBody from "./NoteItemBody";
+import { Link } from "react-router-dom";
+import { FaTrash, FaArchive, FaBoxOpen, FaEdit } from "react-icons/fa";
 
-function NoteItem({ note, onDelete, onArchive }) {
-  const navigate = useNavigate();
-
+function NoteItem({ note, onDelete, onArchive, isArchived = false, actionLoading }) {
+  const isLoading = actionLoading && (actionLoading[`delete-${note.id}`] || actionLoading[`archive-${note.id}`] || actionLoading[`unarchive-${note.id}`]);
+  
   const handleDelete = () => {
-    onDelete(note.id);
-  };
-
-  const handleEdit = () => {
-    navigate(`/edit/${note.id}`);
+    if (window.confirm("Are you sure you want to delete this note?")) {
+      onDelete(note.id);
+    }
   };
 
   const handleArchive = () => {
@@ -19,13 +18,48 @@ function NoteItem({ note, onDelete, onArchive }) {
 
   return (
     <div className="note-item">
-      <NoteItemBody {...note} />
+      <NoteItemBody note={note} />
+      
       <div className="note-item-action">
-        <button className="note-btn edit" onClick={handleEdit}>Edit</button>
-        <button className="note-btn archive" onClick={handleArchive}>
-          {note.archived ? "Unarchive" : "Archive"}
+        <Link to={`/edit/${note.id}`} className="note-btn edit" disabled={isLoading}>
+          <FaEdit /> Edit
+        </Link>
+        
+        <button 
+          className={`note-btn ${isArchived ? 'archive' : 'archive'}`}
+          onClick={handleArchive}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <span className="spinner-small"></span> Processing...
+            </>
+          ) : isArchived ? (
+            <>
+              <FaBoxOpen /> Unarchive
+            </>
+          ) : (
+            <>
+              <FaArchive /> Archive
+            </>
+          )}
         </button>
-        <button className="note-btn delete" onClick={handleDelete}>Delete</button>
+        
+        <button 
+          className="note-btn delete"
+          onClick={handleDelete}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <span className="spinner-small"></span> Deleting...
+            </>
+          ) : (
+            <>
+              <FaTrash /> Delete
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

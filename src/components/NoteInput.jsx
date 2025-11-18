@@ -100,6 +100,7 @@ class NoteInput extends React.Component {
 
   render() {
     const isEditing = !!this.props.editingNote;
+    const isLoading = this.props.loading;
     
     return (
       <div className="card-note-input">
@@ -109,11 +110,12 @@ class NoteInput extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
-              className="note-input-title"
+              className="note-input-field"
               placeholder="Note Title"
               value={this.state.title}
               onChange={this.handleTitleChange}
               maxLength="50"
+              disabled={isLoading}
             />
             <p className="character-count">Character Remaining: {this.state.charCount}</p>
 
@@ -122,6 +124,7 @@ class NoteInput extends React.Component {
               placeholder="Note Body"
               value={this.state.body}
               onChange={this.handleBodyChange}
+              disabled={isLoading}
             ></textarea>
 
             <div className="note-input-buttons">
@@ -130,12 +133,13 @@ class NoteInput extends React.Component {
                   type="button" 
                   className="cancel-edit-btn"
                   onClick={this.handleCancel}
+                  disabled={isLoading}
                 >
                   Cancel
                 </button>
               )}
-              <button type="submit" className="save-note-btn">
-                {isEditing ? "Update Note" : "Save Note"}
+              <button type="submit" className="save-note-btn" disabled={isLoading}>
+                {isLoading ? "Saving..." : (isEditing ? "Update Note" : "Save Note")}
               </button>
             </div>
           </form>

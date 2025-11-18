@@ -3,10 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import NoteList from "./NoteList";
+import LoadingIndicator from "./LoadingIndicator";
 import { useNotes } from "../context/NoteContext";
+import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "../utils/translations";
 
-function NoteApp() {
-  const { notes, deleteNote, archiveNote } = useNotes();
+function NoteApp({ onLogout }) {
+  const { notes, loading, actionLoading, error, refreshNotes, deleteNote, archiveNote, unarchiveNote } = useNotes();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || "");
 
@@ -36,30 +41,57 @@ function NoteApp() {
     }
   };
 
+  if (loading && notes.length === 0) {
+    return (
+      <div className="note-app">
+        <Navbar onLogout={onLogout} />
+        <LoadingIndicator message="Loading your notes..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="note-app">
+        <Navbar onLogout={onLogout} />
+        <div className="error-container">
+          <p>Error: {error}</p>
+          <button onClick={refreshNotes}>Retry</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Navbar />
+      <Navbar onLogout={onLogout} />
       <Searchbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="note-section-container">
-        <h2 className="title">Active Notes</h2>
         <NoteList 
           notes={filteredActiveNotes} 
           onDelete={deleteNote}
           onArchive={archiveNote}
+          actionLoading={actionLoading}
+          title={t('activeNotes')}
         />
         
         {filteredArchivedNotes.length > 0 && (
           <div className="archived-notes-section">
-            <h2 className="title">Archived Notes</h2>
             <NoteList 
               notes={filteredArchivedNotes} 
               onDelete={deleteNote}
-              onArchive={archiveNote}
+              onArchive={unarchiveNote}
+              actionLoading={actionLoading}
               isArchived={true}
+              title={t('archivedNotes')}
             />
           </div>
         )}
       </div>
+      {/* Global loading overlay for background operations */}
+      {loading && notes.length > 0 && (
+        <LoadingIndicator message="Refreshing notes..." />
+      )}
     </div>
   );
 }
